@@ -1,36 +1,48 @@
-#include <vector>
-#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <cctype>
 
 namespace math {
-    template <typename T>
-    class Vec2 {
-        public:
-        Vec2<T>() : x(0), y(0) {}
-        Vec2<T>(T x, T y) : x(x), y(y) {}
-        Vec2<T>(const Vec2<T> &other) : x(other.x), y(other.y) {}
-        
-        /* operators */
-        Vec2<T> operator+(const Vec2<T> &other) const { return Vec2<T>(x + other.x, y + other.y); }
-        Vec2<T> operator-(const Vec2<T> &other) const { return Vec2<T>(x - other.x, y - other.y); }
-        Vec2<T> operator*(const T &scalar) const { return Vec2<T>(x * scalar, y * scalar); }
-        Vec2<T> operator/(const T &scalar) const { return Vec2<T>(x / scalar, y / scalar); }
-        Vec2<T> &operator=(const Vec2<T> &other) x(other.x), y(other.y) { return *this; }
-        Vec2<T> &operator+=(const Vec2<T> &other) { x + other.x, y + other.y; return *this; }
-        Vec2<T> &operator-=(const Vec2<T> &other) { x - other.x, y - other.y; return *this; }
-        Vec2<T> &operator*=(const T &scalar) { x * scalar, y * scalar; return *this; }
-        Vec2<T> &operator/=(const T &scalar) { x / scalar, y / scalar; return *this; }
-        bool operator==(const Vec2<T> &other) const { return x == other.}
-        private:
-        T x;
-        T y;
+template <typename T>
+class Vec {
+public:
+    T x, y;
 
-        /* functions */
-        public:
-        Vec2<T> Abs() const { return Vec2<T>(std::abs(x)); }
-        Vec2<T> Rotate(T sin, T cos) const {return Vec2<T>(x * cos - y * sin, x * sin + y * cos); }
-        Vec2<T> Rotate(T angle) const {return Rotate(std::sin(angle), std::cos(angle)); }
+    Vec() : x(0), y(0) {}
+    Vec(T x, T y) : x(x), y(y) {}
 
-
-
+    Vec operator+(const Vec& v) const {
+        return Vec(x + v.x, y + v.y);
     }
-}
+
+    Vec operator-(const Vec& v) const {
+        return Vec(x - v.x, y - v.y);
+    }
+
+    Vec operator*(T scalar) const {
+        return Vec(x * scalar, y * scalar);
+    }
+
+    Vec operator/(T scalar) const {
+        return Vec(x / scalar, y / scalar);
+    }
+
+    T dot(const Vec& v) const {
+        return x * v.x + y * v.y;
+    }
+
+    T magnitude() const {
+        return std::sqrt(x * x + y * y);
+    }
+
+    Vec normalize() const {
+        T mag = magnitude();
+        return Vec(x / mag, y / mag);
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Vec& v) {
+        os << "(" << v.x << ", " << v.y << ")";
+        return os;
+    }
+};
+} // namespace math
